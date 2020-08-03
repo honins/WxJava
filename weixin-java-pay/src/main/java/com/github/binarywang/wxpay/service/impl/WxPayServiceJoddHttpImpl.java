@@ -1,5 +1,6 @@
 package com.github.binarywang.wxpay.service.impl;
 
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import javax.net.ssl.SSLContext;
 
@@ -59,6 +60,16 @@ public class WxPayServiceJoddHttpImpl extends BaseWxPayServiceImpl {
     }
   }
 
+  @Override
+  public String postV3(String url, String requestStr) throws WxPayException {
+    return null;
+  }
+
+  @Override
+  public String getV3(URI url) throws WxPayException {
+    return null;
+  }
+
   private HttpRequest buildHttpRequest(String url, String requestStr, boolean useKey) throws WxPayException {
     HttpRequest request = HttpRequest
       .post(url)
@@ -76,6 +87,10 @@ public class WxPayServiceJoddHttpImpl extends BaseWxPayServiceImpl {
     }
 
     if (StringUtils.isNotBlank(this.getConfig().getHttpProxyHost()) && this.getConfig().getHttpProxyPort() > 0) {
+      if (StringUtils.isEmpty(this.getConfig().getHttpProxyUsername())) {
+        this.getConfig().setHttpProxyUsername("whatever");
+      }
+
       ProxyInfo httpProxy = new ProxyInfo(ProxyType.HTTP, this.getConfig().getHttpProxyHost(), this.getConfig().getHttpProxyPort(),
         this.getConfig().getHttpProxyUsername(), this.getConfig().getHttpProxyPassword());
       HttpConnectionProvider provider = request.connectionProvider();
